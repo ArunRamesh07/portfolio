@@ -187,6 +187,22 @@ h2 {
   margin: 0 0 8px;
   border-radius: 4px;
 }
+.card-head img.brand-kone {
+  width: 176px;
+  height: auto;
+  border-radius: 2px;
+}
+.shot, .shots { margin: 0 0 10px; }
+.shot img, .shots img {
+  width: 100%;
+  display: block;
+  border-radius: 4px;
+  background: #f3f4f6;
+}
+.shot img { height: 190px; object-fit: cover; object-position: center 28%; }
+.shots { display: grid; gap: 6px; }
+.shots img.part { height: auto; object-fit: contain; }
+.shots img.scene { height: 170px; object-fit: cover; object-position: center; }
 .card-head h3 { margin: 0 0 2px; color: var(--blue-dark); font-size: 20px; }
 .card-head p { margin: 0; }
 .card p, .card li { color: #333; font-size: 15.5px; }
