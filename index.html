@@ -19,6 +19,7 @@
       <a href="#top" aria-current="page">Home</a>
       <a href="resume.html">Resume</a>
       <a href="#projects">Projects</a>
+      <a href="#awards">Awards</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -71,8 +72,13 @@
           <p class="when">Dec 2021 – Present</p>
           <p class="where">Chennai</p>
           <div class="card">
-            <h3>KONE — Special Engineering Specialist</h3>
-            <p>Shaft Mechanical &amp; Component Engineering</p>
+            <div class="card-head">
+              <img src="images/logo-kone.svg" alt="KONE">
+              <div>
+                <h3>Special Engineering Specialist</h3>
+                <p>Shaft Mechanical &amp; Component Engineering</p>
+              </div>
+            </div>
             <ul>
               <li>Design and validate EN 81-20 load-bearing components in Creo for Europe and China, about three projects a month.</li>
               <li>Check non-standard parts and large assemblies in Ansys Workbench and by hand. On one or two critical projects a quarter I do both the design and the analysis.</li>
@@ -87,8 +93,13 @@
           <p class="when">Apr 2019 – Dec 2021</p>
           <p class="where">Dindigul</p>
           <div class="card">
-            <h3>Renold — Design Engineer</h3>
-            <p>Renold Einbeck and Renold Chain India</p>
+            <div class="card-head">
+              <img src="images/logo-renold.svg" alt="Renold">
+              <div>
+                <h3>Design Engineer</h3>
+                <p>Renold Einbeck and Renold Chain India</p>
+              </div>
+            </div>
             <ul>
               <li>20–25 Einbeck drawings a month, and about four India drawings a month, in AutoCAD, Creo, and Windchill.</li>
               <li>Progressive, compound, and crank-press tools, welding fixtures, drilling and boring jigs, and segmented and hub sprockets.</li>
@@ -101,8 +112,13 @@
           <p class="when">Jul 2018 – Apr 2019</p>
           <p class="where">Dindigul</p>
           <div class="card">
-            <h3>Renold — Trainee, then Business Development</h3>
-            <p>Renold Chain India</p>
+            <div class="card-head">
+              <img src="images/logo-renold.svg" alt="Renold">
+              <div>
+                <h3>Trainee, then Business Development</h3>
+                <p>Renold Chain India</p>
+              </div>
+            </div>
             <ul>
               <li>Time studies on hydraulic-press work and drawings for punch and tool parts, then OEM, dealer, and regional sales.</li>
               <li>Customer base up 20%.</li>
@@ -139,13 +155,21 @@
             <p>A Power Apps register of engineering learnings. Team efficiency up 20%. Repeat issues down 5%.</p>
           </div>
         </article>
-        <article class="project award">
-          <div class="band"></div>
-          <div class="body">
-            <div class="tag">KONE · 2026</div>
-            <h3>Innovation Award</h3>
-            <p>Top 10 ideas out of 169. Ace Performer in 2023 and 2025.</p>
-          </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="awards">
+      <h2>Awards</h2>
+      <div class="awards">
+        <article class="award">
+          <div class="tag">KONE · 2026</div>
+          <h3>Innovation Award</h3>
+          <p>Top 10 ideas out of 169.</p>
+        </article>
+        <article class="award">
+          <div class="tag">KONE · 2023 and 2025</div>
+          <h3>Ace Performer</h3>
+          <p>Named for quality of delivery and utilisation in both years.</p>
         </article>
       </div>
     </section>
@@ -170,7 +194,69 @@
       <p><a href="https://www.linkedin.com/in/r-arun-karthick-445a8310a/" target="_blank" rel="noopener">LinkedIn</a></p>
       <p><a href="resume.html">Open resume</a></p>
     </section>
+
+    <section class="wrap" id="feedback">
+      <h2>Feedback</h2>
+      <p class="center">A like or a short comment is welcome. Comments are emailed to me.</p>
+      <div class="feedback-box">
+        <button class="like" id="like" type="button" aria-pressed="false">Like</button>
+        <p class="like-note" id="like-note"></p>
+        <form id="note-form">
+          <label for="note-name">Name</label>
+          <input id="note-name" name="name" autocomplete="name" maxlength="80">
+          <label for="note-body">Comment</label>
+          <textarea id="note-body" name="message" required maxlength="2000"></textarea>
+          <button class="send" type="submit">Send comment</button>
+          <p class="note-status" id="note-status" role="status"></p>
+        </form>
+      </div>
+    </section>
   </main>
+  <script>
+    (function () {
+      var like = document.getElementById("like");
+      var note = document.getElementById("like-note");
+      var liked = localStorage.getItem("ak-like") === "1";
+      function paintLike() {
+        like.setAttribute("aria-pressed", liked ? "true" : "false");
+        like.textContent = liked ? "Liked" : "Like";
+        note.textContent = liked ? "Thank you. This like stays on this browser." : "";
+      }
+      paintLike();
+      like.addEventListener("click", function () {
+        liked = !liked;
+        localStorage.setItem("ak-like", liked ? "1" : "0");
+        paintLike();
+      });
+
+      var form = document.getElementById("note-form");
+      var status = document.getElementById("note-status");
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var message = document.getElementById("note-body").value.trim();
+        var name = document.getElementById("note-name").value.trim();
+        if (!message) return;
+        status.textContent = "Sending…";
+        fetch("https://formsubmit.co/ajax/kaminiramesharun@gmail.com", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            name: name || "Anonymous",
+            message: message,
+            _subject: "Portfolio feedback",
+            _template: "table",
+            _captcha: "false"
+          })
+        }).then(function (res) {
+          if (!res.ok) throw new Error("send failed");
+          form.reset();
+          status.textContent = "Sent. Thank you.";
+        }).catch(function () {
+          status.textContent = "The page could not send that. Email kaminiramesharun@gmail.com instead.";
+        });
+      });
+    })();
+  </script>
 
   <footer class="site-footer">
     <p>Arunkarthick Ramesh · Karur, India</p>
